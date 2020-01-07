@@ -1,6 +1,6 @@
-﻿param(
- [string]
- $gatewayKey
+param(
+ [string]$gatewayKey,
+ [string]$nodeName = $env:computername
 )
 
 # init log setting
@@ -161,7 +161,7 @@ function Register-Gateway([string] $instanceKey)
     Trace-Log "Register Agent"
 	$filePath = Get-InstalledFilePath
 	Run-Process $filePath "-era 8060"
-	Run-Process $filePath "-k $instanceKey"
+	Run-Process $filePath "-rn $instanceKey $nodeName"
     Trace-Log "Agent registration is successful!"
 }
 
