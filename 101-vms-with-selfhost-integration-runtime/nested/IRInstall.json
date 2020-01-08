@@ -20,7 +20,7 @@
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
       "name": "[concat(parameters('virtualMachineName'), '/' ,parameters('virtualMachineName'), 'installGW')]",
-      "apiVersion": "2017-03-30",
+      "apiVersion": "2019-03-01",
       "location": "[parameters('existingVnetLocation')]",
       "tags": {
         "vmname": "[parameters('virtualMachineName')]"
