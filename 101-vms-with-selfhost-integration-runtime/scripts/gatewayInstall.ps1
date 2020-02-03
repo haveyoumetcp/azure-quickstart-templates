@@ -12,6 +12,18 @@ if (! (Test-Path($logLoc)))
 $logPath = "$logLoc\tracelog.log"
 "Start to excute gatewayInstall.ps1. `n" | Out-File $logPath
 
+function Is-Installed()
+{
+    $software = "Microsoft Integration Runtime";
+    $installed = (Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Where { $_.DisplayName -eq $software }) -ne $null
+
+    If(-Not $installed) {
+	    return 0
+    } else {
+	    return 1
+    }
+}
+
 function Now-Value()
 {
     return (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
@@ -173,9 +185,9 @@ Trace-Log "Gateway download fw link: $uri"
 $gwPath= "$PWD\gateway.msi"
 Trace-Log "Gateway download location: $gwPath"
 
-
-Download-Gateway $uri $gwPath
-Install-Gateway $gwPath
-
+if (![bool](Is-Installed))
+{
+    Download-Gateway $uri $gwPath
+    Install-Gateway $gwPath
+}
 Register-Gateway $gatewayKey
-
